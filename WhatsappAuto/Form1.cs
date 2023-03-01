@@ -11,9 +11,8 @@ namespace WhatsappAuto
 {
     public partial class Form1 : Form
     {
-        EdgeDriver browser = null;
         EdgeOptions options;
-        string ContactName = "BookMyShow";
+        string ContactName = Settings.Default.ContactName; //BookMyShow
         string StartingMessage = "s";
         string EndingMessage = "fdsf";
         public Form1()
@@ -24,29 +23,30 @@ namespace WhatsappAuto
         private void Form1_Load(object sender, EventArgs e)
         {
           
-            textBox1.Text = Settings.Default.StartingMessage;
-            textBox2.Text = Settings.Default.EndingMessage;
+            chatStartPointBox.Text = Settings.Default.StartingMessage;
+            chatEndPointBox.Text = Settings.Default.EndingMessage;
             killEdgePrograms();
-            button2.Focus();
+
+            contactNameBox.Text = ContactName;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void closeEdgeButton_Click(object sender, EventArgs e)
         {
             killEdgePrograms();
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void openEdgeButton_Click(object sender, EventArgs e)
         {
             killEdgePrograms();
             Thread.Sleep(500);
             options = new EdgeOptions();
-            string profilePath = @"C:\Users\Krishna Teja\AppData\Local\Microsoft\Edge\User Data";
+            string profilePath = Settings.Default.ProfilePath;
             options.AddArgument("--user-data-dir=" + profilePath);
-            options.AddArgument("--profile-directory=Profile 1");
+            options.AddArgument("--profile-directory=" + Settings.Default.ProfileDirectory);
             options.AddArgument("--start-maximized");
             //options.AddArgument("--headless");
 
-            EdgeDriverService service = EdgeDriverService.CreateDefaultService(@"F:\Krishna Teja\Softwares\edgedriver_win64\msedgedriver.exe");
+            EdgeDriverService service = EdgeDriverService.CreateDefaultService(Settings.Default.EdgeDriverLocation);
             // specify the path to the Edge browser executable
           //  options.BinaryLocation = @"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe";
           // create a new EdgeDriver instance with the options
@@ -109,13 +109,13 @@ namespace WhatsappAuto
                         }
                     }
                 }
-                label3.Text = "Total You Delete Messages : " + i;
-                label4.Text = "";
+                totalDeletedMssgesLabel.Text = "Total You Delete Messages : " + i;
+                testLabel.Text = "";
                 foreach(IWebElement IW in AllMessages)
                 {
-                    label4.Text += "\n" + IW.GetAttribute("textContent");
+                    testLabel.Text += "\n" + IW.GetAttribute("textContent");
                 }
-                label5.Text = "All Our Messages : " + AllMessageForYou.Count;
+                AllMessagesLabel.Text = "All Our Messages : " + AllMessageForYou.Count;
               //  MessageBox.Show(AllMessages.ToString());
 
                 /*
@@ -175,16 +175,16 @@ namespace WhatsappAuto
 
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
+        private void chatStartPointBox_TextChanged(object sender, EventArgs e)
         {
-            StartingMessage = textBox1.Text;
+            StartingMessage = chatStartPointBox.Text;
             Settings.Default.StartingMessage = StartingMessage;
             Settings.Default.Save();
         }
 
-        private void textBox2_TextChanged(object sender, EventArgs e)
+        private void chatEndPointBox_TextChanged(object sender, EventArgs e)
         {
-            EndingMessage = textBox2.Text;
+            EndingMessage = chatEndPointBox.Text;
             Settings.Default.EndingMessage = EndingMessage;
             Settings.Default.Save();
         }
@@ -198,6 +198,17 @@ namespace WhatsappAuto
             {
                 process.Kill();
             }
+        }
+
+        private void closeAppButton_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void settingsMenuButton_Click(object sender, EventArgs e)
+        {
+            SettingsForm settingsForm = new SettingsForm();
+            settingsForm.Show();
         }
     }
 }

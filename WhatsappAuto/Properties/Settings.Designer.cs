@@ -12,7 +12,7 @@ namespace WhatsappAuto.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.4.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.3.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -25,7 +25,7 @@ namespace WhatsappAuto.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\Krishna Teja\\AppData\\Local\\Microsoft\\Edge\\User Data\\Default")]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\Krishna Teja\\AppData\\Local\\Microsoft\\Edge\\User Data")]
         public string ProfilePath {
             get {
                 return ((string)(this["ProfilePath"]));
@@ -37,13 +37,13 @@ namespace WhatsappAuto.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Default")]
-        public string ProfileName {
+        [global::System.Configuration.DefaultSettingValueAttribute("Profile 1")]
+        public string ProfileDirectory {
             get {
-                return ((string)(this["ProfileName"]));
+                return ((string)(this["ProfileDirectory"]));
             }
             set {
-                this["ProfileName"] = value;
+                this["ProfileDirectory"] = value;
             }
         }
         
@@ -68,6 +68,30 @@ namespace WhatsappAuto.Properties {
             }
             set {
                 this["EndingMessage"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("BookMyShow")]
+        public string ContactName {
+            get {
+                return ((string)(this["ContactName"]));
+            }
+            set {
+                this["ContactName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("F:\\Krishna Teja\\Softwares\\edgedriver_win64\\msedgedriver.exe")]
+        public string EdgeDriverLocation {
+            get {
+                return ((string)(this["EdgeDriverLocation"]));
+            }
+            set {
+                this["EdgeDriverLocation"] = value;
             }
         }
     }

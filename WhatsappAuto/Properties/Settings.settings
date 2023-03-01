@@ -3,16 +3,22 @@
   <Profiles />
   <Settings>
     <Setting Name="ProfilePath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">C:\Users\Krishna Teja\AppData\Local\Microsoft\Edge\User Data\Default</Value>
+      <Value Profile="(Default)">C:\Users\Krishna Teja\AppData\Local\Microsoft\Edge\User Data</Value>
     </Setting>
-    <Setting Name="ProfileName" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Default</Value>
+    <Setting Name="ProfileDirectory" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Profile 1</Value>
     </Setting>
     <Setting Name="StartingMessage" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="EndingMessage" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="ContactName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">BookMyShow</Value>
+    </Setting>
+    <Setting Name="EdgeDriverLocation" Type="System.String" Scope="User">
+      <Value Profile="(Default)">F:\Krishna Teja\Softwares\edgedriver_win64\msedgedriver.exe</Value>
     </Setting>
   </Settings>
 </SettingsFile>
