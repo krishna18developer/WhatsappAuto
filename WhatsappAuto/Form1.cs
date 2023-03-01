@@ -263,7 +263,7 @@ namespace WhatsappAuto
                 //EdgeDriver browser = new EdgeDriver(@"F:\Krishna Teja\Softwares\edgedriver_win64\msedgedriver.exe",options);
                 EdgeDriver browser = new EdgeDriver(service, options);
 
-                browser.Navigate().GoToUrl("https://web.whatsapp.com/");
+                browser.Navigate().GoToUrl("https://web.whatsapp.com/");    
                 Thread.Sleep(10000);
                 IWebElement contactName;
             contactTryer:
@@ -292,21 +292,8 @@ namespace WhatsappAuto
         }
         public void reloadDeletion()
         {
-            try
-            {
-                var ApplicationBody = publicDriver.FindElement(By.XPath("//div[@data-testid='conversation-panel-messages']"));
-                Actions a = new Actions(publicDriver);
-                a.MoveToElement(ApplicationBody);
-
-                IJavaScriptExecutor js = (IJavaScriptExecutor)publicDriver;
-                js.ExecuteScript("window.scrollBy(0,-250)", "");
-            }
-            catch(Exception ek)
-            {
-                Console.WriteLine(ek.Message);
-            }
-
             IList<IWebElement> ChatStartPoint = publicDriver.FindElements(By.XPath("//div[@data-testid='msg-container']"));
+            testLabel.Text = "";
             foreach (IWebElement element in ChatStartPoint)
             {
                 testLabel.Text += element.GetAttribute("outerText");
@@ -366,7 +353,8 @@ namespace WhatsappAuto
 
         private void runAgainButton_Click_1(object sender, EventArgs e)
         {
-            backgroundWorker2.RunWorkerAsync();
+            //backgroundWorker2.RunWorkerAsync();
+            reloadDeletion();
         }
 
         private void backgroundWorker2_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
