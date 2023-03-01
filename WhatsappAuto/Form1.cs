@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics;
 using System.Runtime.Remoting.Messaging;
 using System.Threading;
@@ -7,6 +8,7 @@ using System.Windows.Forms;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Edge;
+using OpenQA.Selenium.Interactions;
 using WhatsappAuto.Properties;
 
 namespace WhatsappAuto
@@ -17,6 +19,10 @@ namespace WhatsappAuto
         string ContactName = Settings.Default.ContactName; //BookMyShow
         string StartingMessage = "s";
         string EndingMessage = "fdsf";
+        bool headless = Settings.Default.Headless;
+        int numberOfDeletedMessages = 0;
+
+        EdgeDriver publicDriver;
         public Form1()
         {
             InitializeComponent();
@@ -46,7 +52,10 @@ namespace WhatsappAuto
             options.AddArgument("--user-data-dir=" + profilePath);
             options.AddArgument("--profile-directory=" + Settings.Default.ProfileDirectory);
             options.AddArgument("--start-maximized");
-            //options.AddArgument("--headless");
+            if (headless)
+            {
+                options.AddArgument("--headless");
+            }
 
             EdgeDriverService service = EdgeDriverService.CreateDefaultService(Settings.Default.EdgeDriverLocation);
             // specify the path to the Edge browser executable
@@ -222,6 +231,16 @@ namespace WhatsappAuto
 
         private void thisMessageDeletedButton_Click(object sender, EventArgs e)
         {
+            backgroundWorker1.RunWorkerAsync();
+           // deletionLogic();
+        }
+
+        private void backgroundWorker1_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+        {
+            deletionLogic();
+        }
+        public void deletionLogic()
+        {
             killEdgePrograms();
             Thread.Sleep(500);
             options = new EdgeOptions();
@@ -229,6 +248,10 @@ namespace WhatsappAuto
             options.AddArgument("--user-data-dir=" + profilePath);
             options.AddArgument("--profile-directory=" + Settings.Default.ProfileDirectory);
             options.AddArgument("--start-maximized");
+            if (headless)
+            {
+                options.AddArgument("--headless");
+            }
             //options.AddArgument("--headless");
 
             EdgeDriverService service = EdgeDriverService.CreateDefaultService(Settings.Default.EdgeDriverLocation);
@@ -259,17 +282,41 @@ namespace WhatsappAuto
                 }
                 Thread.Sleep(2000);
 
-            deletionProcedure:
-                // IWebElement ChatStartPoint = browser.FindElement(By.XPath("//span[.='" + "You deleted this message" + "']"));
-                IList< IWebElement> ChatStartPoint = browser.FindElements(By.XPath("//div[@data-testid='msg-container']"));
-                foreach(IWebElement element in ChatStartPoint)
-                {
-                    testLabel.Text += element.GetAttribute("outerText");
-                }
+                publicDriver = browser;
+                reloadDeletion();
+            }
+            catch (Exception ed)
+            {
+                Console.WriteLine(ed);
+            }
+        }
+        public void reloadDeletion()
+        {
+            try
+            {
+                var ApplicationBody = publicDriver.FindElement(By.XPath("//div[@data-testid='conversation-panel-messages']"));
+                Actions a = new Actions(publicDriver);
+                a.MoveToElement(ApplicationBody);
 
-                foreach(IWebElement webElement in ChatStartPoint)
+                IJavaScriptExecutor js = (IJavaScriptExecutor)publicDriver;
+                js.ExecuteScript("window.scrollBy(0,-250)", "");
+            }
+            catch(Exception ek)
+            {
+                Console.WriteLine(ek.Message);
+            }
+
+            IList<IWebElement> ChatStartPoint = publicDriver.FindElements(By.XPath("//div[@data-testid='msg-container']"));
+            foreach (IWebElement element in ChatStartPoint)
+            {
+                testLabel.Text += element.GetAttribute("outerText");
+            }
+
+            foreach (IWebElement webElement in ChatStartPoint)
+            {
+                if (webElement.GetAttribute("outerText").Contains("You deleted this message") || webElement.GetAttribute("outerText").Contains("This message was deleted"))
                 {
-                    if (webElement.GetAttribute("outerText").Contains("You deleted this message") || webElement.GetAttribute("outerText").Contains("This message was deleted"))
+                    try
                     {
                         webElement.Click();
                         //var ChatArrow = webElement.FindElement(By.XPath("//span[@data-testid='msg-dblcheck']"));
@@ -281,51 +328,53 @@ namespace WhatsappAuto
                         var DeleteButton = webElement.FindElement(By.XPath("//div[@aria-label='Delete message']"));
                         DeleteButton.Click();
 
-                        var DeleteForEveryone = browser.FindElements(By.XPath("//div[@data-testid='content']"));
+                        var DeleteForEveryone = publicDriver.FindElements(By.XPath("//div[@data-testid='content']"));
 
-                        foreach(IWebElement deleteButton in DeleteForEveryone)
+                        foreach (IWebElement deleteButton in DeleteForEveryone)
                         {
-                            if(deleteButton.GetAttribute("innerHTML").Contains("Delete for me"))
+                            if (deleteButton.GetAttribute("innerHTML").Contains("Delete for me"))
                             {
                                 deleteButton.Click();
+                                numberOfDeletedMessages++;
+                                noOfDeletedMessagesLabel.Text = "No of deleted Messages : " + numberOfDeletedMessages;
                             }
 
                         }
                     }
+                    catch(Exception ekk)
+                    {
+                        Console.WriteLine(ekk.Message);
+                    }
 
                 }
-                goto deletionProcedure;
-
 
             }
-            catch (Exception ek)
+        }
+        private void HeadlessCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (headlessCheckBox.Checked)
             {
-
+                headless = true;
             }
-
+            else
+            {
+                headless = false;
+            }
+            Settings.Default.Headless = headless;
+            Settings.Default.Save();
         }
 
-        public void ByVisibleElement()
+        private void runAgainButton_Click_1(object sender, EventArgs e)
         {
-
-          //  var driver = new ChromeDriver();
-            
-
-            //Launch the application		
-          //  driver.get("http://demo.guru99.com/test/guru99home/");
-
-            //Find element by link text and store in variable "Element"        		
-            //WebElement Element = driver.findElement(By.linkText("Linux"));
-
-            //This will scroll the page till the element is found		
-           // js.executeScript("arguments[0].scrollIntoView();", Element);
+            backgroundWorker2.RunWorkerAsync();
         }
 
-    
-        private void runAgainButton_Click(object sender, EventArgs e)
+        private void backgroundWorker2_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
-           // goto deletionProcedure;
+            reloadDeletion();
         }
     }
+
+
 }
 

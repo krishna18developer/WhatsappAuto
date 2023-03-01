@@ -20,5 +20,8 @@
     <Setting Name="EdgeDriverLocation" Type="System.String" Scope="User">
       <Value Profile="(Default)">F:\Krishna Teja\Softwares\edgedriver_win64\msedgedriver.exe</Value>
     </Setting>
+    <Setting Name="Headless" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

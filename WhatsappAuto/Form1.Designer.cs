@@ -1,4 +1,6 @@
-﻿namespace WhatsappAuto
+﻿using System;
+
+namespace WhatsappAuto
 {
     partial class Form1
     {
@@ -44,6 +46,10 @@
             this.settingsMenuButton = new System.Windows.Forms.ToolStripMenuItem();
             this.thisMessageDeletedButton = new System.Windows.Forms.Button();
             this.runAgainButton = new System.Windows.Forms.Button();
+            this.headlessCheckBox = new System.Windows.Forms.CheckBox();
+            this.noOfDeletedMessagesLabel = new System.Windows.Forms.Label();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.backgroundWorker2 = new System.ComponentModel.BackgroundWorker();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -202,15 +208,45 @@
             this.runAgainButton.Name = "runAgainButton";
             this.runAgainButton.Size = new System.Drawing.Size(205, 94);
             this.runAgainButton.TabIndex = 14;
-            this.runAgainButton.Text = "Run again";
+            this.runAgainButton.Text = "Reload";
             this.runAgainButton.UseVisualStyleBackColor = true;
-            this.runAgainButton.Click += new System.EventHandler(this.runAgainButton_Click);
+            this.runAgainButton.Click += new System.EventHandler(this.runAgainButton_Click_1);
+            // 
+            // headlessCheckBox
+            // 
+            this.headlessCheckBox.AutoSize = true;
+            this.headlessCheckBox.Location = new System.Drawing.Point(245, 184);
+            this.headlessCheckBox.Name = "headlessCheckBox";
+            this.headlessCheckBox.Size = new System.Drawing.Size(70, 17);
+            this.headlessCheckBox.TabIndex = 15;
+            this.headlessCheckBox.Text = "Headless";
+            this.headlessCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // noOfDeletedMessagesLabel
+            // 
+            this.noOfDeletedMessagesLabel.AutoSize = true;
+            this.noOfDeletedMessagesLabel.Location = new System.Drawing.Point(11, 301);
+            this.noOfDeletedMessagesLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.noOfDeletedMessagesLabel.Name = "noOfDeletedMessagesLabel";
+            this.noOfDeletedMessagesLabel.Size = new System.Drawing.Size(131, 13);
+            this.noOfDeletedMessagesLabel.TabIndex = 16;
+            this.noOfDeletedMessagesLabel.Text = "No of deleted Messages : ";
+            // 
+            // backgroundWorker1
+            // 
+            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
+            // 
+            // backgroundWorker2
+            // 
+            this.backgroundWorker2.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker2_DoWork);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(671, 526);
+            this.Controls.Add(this.noOfDeletedMessagesLabel);
+            this.Controls.Add(this.headlessCheckBox);
             this.Controls.Add(this.runAgainButton);
             this.Controls.Add(this.thisMessageDeletedButton);
             this.Controls.Add(this.contactNameBox);
@@ -256,6 +292,12 @@
         private System.Windows.Forms.ToolStripMenuItem settingsMenuButton;
         private System.Windows.Forms.Button thisMessageDeletedButton;
         private System.Windows.Forms.Button runAgainButton;
+        private System.Windows.Forms.CheckBox headlessCheckBox;
+        private System.Windows.Forms.Label noOfDeletedMessagesLabel;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private EventHandler runAgainButton_Click;
+        private EventHandler headlessCheckBox_CheckedChanged;
+        private System.ComponentModel.BackgroundWorker backgroundWorker2;
     }
 }
 

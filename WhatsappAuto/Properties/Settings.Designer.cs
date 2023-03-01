@@ -94,5 +94,17 @@ namespace WhatsappAuto.Properties {
                 this["EdgeDriverLocation"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool Headless {
+            get {
+                return ((bool)(this["Headless"]));
+            }
+            set {
+                this["Headless"] = value;
+            }
+        }
     }
 }
