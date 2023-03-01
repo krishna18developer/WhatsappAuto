@@ -42,6 +42,8 @@
             this.contactNameBox = new System.Windows.Forms.TextBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.settingsMenuButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.thisMessageDeletedButton = new System.Windows.Forms.Button();
+            this.runAgainButton = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -163,6 +165,7 @@
             this.contactNameBox.Name = "contactNameBox";
             this.contactNameBox.Size = new System.Drawing.Size(205, 20);
             this.contactNameBox.TabIndex = 11;
+            this.contactNameBox.TextChanged += new System.EventHandler(this.contactNameBox_TextChanged);
             // 
             // menuStrip1
             // 
@@ -181,11 +184,35 @@
             this.settingsMenuButton.Text = "Settings";
             this.settingsMenuButton.Click += new System.EventHandler(this.settingsMenuButton_Click);
             // 
+            // thisMessageDeletedButton
+            // 
+            this.thisMessageDeletedButton.Location = new System.Drawing.Point(11, 421);
+            this.thisMessageDeletedButton.Margin = new System.Windows.Forms.Padding(2);
+            this.thisMessageDeletedButton.Name = "thisMessageDeletedButton";
+            this.thisMessageDeletedButton.Size = new System.Drawing.Size(205, 94);
+            this.thisMessageDeletedButton.TabIndex = 13;
+            this.thisMessageDeletedButton.Text = "This Messsage Was Deleted";
+            this.thisMessageDeletedButton.UseVisualStyleBackColor = true;
+            this.thisMessageDeletedButton.Click += new System.EventHandler(this.thisMessageDeletedButton_Click);
+            // 
+            // runAgainButton
+            // 
+            this.runAgainButton.Location = new System.Drawing.Point(245, 421);
+            this.runAgainButton.Margin = new System.Windows.Forms.Padding(2);
+            this.runAgainButton.Name = "runAgainButton";
+            this.runAgainButton.Size = new System.Drawing.Size(205, 94);
+            this.runAgainButton.TabIndex = 14;
+            this.runAgainButton.Text = "Run again";
+            this.runAgainButton.UseVisualStyleBackColor = true;
+            this.runAgainButton.Click += new System.EventHandler(this.runAgainButton_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(671, 526);
+            this.Controls.Add(this.runAgainButton);
+            this.Controls.Add(this.thisMessageDeletedButton);
             this.Controls.Add(this.contactNameBox);
             this.Controls.Add(this.contactNameLabel);
             this.Controls.Add(this.closeAppButton);
@@ -202,7 +229,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Whatsapp Auto";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -227,6 +254,8 @@
         private System.Windows.Forms.TextBox contactNameBox;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem settingsMenuButton;
+        private System.Windows.Forms.Button thisMessageDeletedButton;
+        private System.Windows.Forms.Button runAgainButton;
     }
 }
 
