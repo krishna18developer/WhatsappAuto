@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SettingsForm));
             this.profilePathLabel = new System.Windows.Forms.Label();
             this.profilePathBox = new System.Windows.Forms.TextBox();
             this.profileDirectoryBox = new System.Windows.Forms.TextBox();
@@ -36,6 +37,8 @@
             this.edgeDriverLabel = new System.Windows.Forms.Label();
             this.reloadDataBox = new System.Windows.Forms.Button();
             this.saveDataBox = new System.Windows.Forms.Button();
+            this.overallDeletionBox = new System.Windows.Forms.TextBox();
+            this.overallDeletionLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // profilePathLabel
@@ -88,7 +91,7 @@
             // 
             // reloadDataBox
             // 
-            this.reloadDataBox.Location = new System.Drawing.Point(15, 122);
+            this.reloadDataBox.Location = new System.Drawing.Point(15, 168);
             this.reloadDataBox.Name = "reloadDataBox";
             this.reloadDataBox.Size = new System.Drawing.Size(441, 23);
             this.reloadDataBox.TabIndex = 6;
@@ -98,7 +101,7 @@
             // 
             // saveDataBox
             // 
-            this.saveDataBox.Location = new System.Drawing.Point(474, 122);
+            this.saveDataBox.Location = new System.Drawing.Point(474, 168);
             this.saveDataBox.Name = "saveDataBox";
             this.saveDataBox.Size = new System.Drawing.Size(414, 23);
             this.saveDataBox.TabIndex = 7;
@@ -106,11 +109,29 @@
             this.saveDataBox.UseVisualStyleBackColor = true;
             this.saveDataBox.Click += new System.EventHandler(this.saveDataBox_Click);
             // 
+            // overallDeletionBox
+            // 
+            this.overallDeletionBox.Location = new System.Drawing.Point(105, 128);
+            this.overallDeletionBox.Name = "overallDeletionBox";
+            this.overallDeletionBox.Size = new System.Drawing.Size(783, 20);
+            this.overallDeletionBox.TabIndex = 9;
+            // 
+            // overallDeletionLabel
+            // 
+            this.overallDeletionLabel.AutoSize = true;
+            this.overallDeletionLabel.Location = new System.Drawing.Point(12, 131);
+            this.overallDeletionLabel.Name = "overallDeletionLabel";
+            this.overallDeletionLabel.Size = new System.Drawing.Size(88, 13);
+            this.overallDeletionLabel.TabIndex = 8;
+            this.overallDeletionLabel.Text = "Overall Deletion :";
+            // 
             // SettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(897, 157);
+            this.ClientSize = new System.Drawing.Size(897, 200);
+            this.Controls.Add(this.overallDeletionBox);
+            this.Controls.Add(this.overallDeletionLabel);
             this.Controls.Add(this.saveDataBox);
             this.Controls.Add(this.reloadDataBox);
             this.Controls.Add(this.edgeDriverBox);
@@ -119,6 +140,7 @@
             this.Controls.Add(this.profileDirectoryLabel);
             this.Controls.Add(this.profilePathBox);
             this.Controls.Add(this.profilePathLabel);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "SettingsForm";
             this.Text = "SettingsForm";
             this.Load += new System.EventHandler(this.SettingsForm_Load);
@@ -137,5 +159,7 @@
         private System.Windows.Forms.Label edgeDriverLabel;
         private System.Windows.Forms.Button reloadDataBox;
         private System.Windows.Forms.Button saveDataBox;
+        private System.Windows.Forms.TextBox overallDeletionBox;
+        private System.Windows.Forms.Label overallDeletionLabel;
     }
 }

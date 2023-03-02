@@ -106,5 +106,17 @@ namespace WhatsappAuto.Properties {
                 this["Headless"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1800")]
+        public int OverallCount {
+            get {
+                return ((int)(this["OverallCount"]));
+            }
+            set {
+                this["OverallCount"] = value;
+            }
+        }
     }
 }

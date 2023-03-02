@@ -30,6 +30,7 @@ namespace WhatsappAuto
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.closeEdgeButton = new System.Windows.Forms.Button();
             this.openEdgeButton = new System.Windows.Forms.Button();
             this.chatStartPointBox = new System.Windows.Forms.TextBox();
@@ -50,6 +51,7 @@ namespace WhatsappAuto
             this.noOfDeletedMessagesLabel = new System.Windows.Forms.Label();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.backgroundWorker2 = new System.ComponentModel.BackgroundWorker();
+            this.overallDeletedMessagesLabel = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -240,11 +242,22 @@ namespace WhatsappAuto
             // 
             this.backgroundWorker2.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker2_DoWork);
             // 
+            // overallDeletedMessagesLabel
+            // 
+            this.overallDeletedMessagesLabel.AutoSize = true;
+            this.overallDeletedMessagesLabel.Location = new System.Drawing.Point(242, 150);
+            this.overallDeletedMessagesLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.overallDeletedMessagesLabel.Name = "overallDeletedMessagesLabel";
+            this.overallDeletedMessagesLabel.Size = new System.Drawing.Size(138, 13);
+            this.overallDeletedMessagesLabel.TabIndex = 17;
+            this.overallDeletedMessagesLabel.Text = "Overall deleted Messages : ";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(671, 526);
+            this.Controls.Add(this.overallDeletedMessagesLabel);
             this.Controls.Add(this.noOfDeletedMessagesLabel);
             this.Controls.Add(this.headlessCheckBox);
             this.Controls.Add(this.runAgainButton);
@@ -262,6 +275,7 @@ namespace WhatsappAuto
             this.Controls.Add(this.chatStartPointBox);
             this.Controls.Add(this.closeEdgeButton);
             this.Controls.Add(this.menuStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form1";
@@ -298,6 +312,7 @@ namespace WhatsappAuto
         private EventHandler runAgainButton_Click;
         private EventHandler headlessCheckBox_CheckedChanged;
         private System.ComponentModel.BackgroundWorker backgroundWorker2;
+        private System.Windows.Forms.Label overallDeletedMessagesLabel;
     }
 }
 

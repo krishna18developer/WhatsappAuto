@@ -23,5 +23,8 @@
     <Setting Name="Headless" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="OverallCount" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1800</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
