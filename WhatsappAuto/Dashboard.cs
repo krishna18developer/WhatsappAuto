@@ -47,8 +47,6 @@ namespace WhatsappAuto
             {
                 this.Text += " - Release";
             }
-            chatStartPointBox.Text = Settings.Default.StartingMessage;
-            chatEndPointBox.Text = Settings.Default.EndingMessage;
             UpdateLabels();
             //killEdgePrograms();
             //Thread t = new Thread(new ThreadStart(UpdateLabels));
@@ -90,20 +88,6 @@ namespace WhatsappAuto
                 IWebElement ChatEndPoint = browser.FindElement(By.XPath("//span[.='asdfdffdfd']"));
              */
 
-
-        private void chatStartPointBox_TextChanged(object sender, EventArgs e)
-        {
-            StartingMessage = chatStartPointBox.Text;
-            Settings.Default.StartingMessage = StartingMessage;
-            Settings.Default.Save();
-        }
-
-        private void chatEndPointBox_TextChanged(object sender, EventArgs e)
-        {
-            EndingMessage = chatEndPointBox.Text;
-            Settings.Default.EndingMessage = EndingMessage;
-            Settings.Default.Save();
-        }
         void killEdgePrograms()
         {
             foreach (var process in Process.GetProcessesByName("msedge"))
@@ -238,7 +222,6 @@ namespace WhatsappAuto
                                         Settings.Default.Save();
                                     }
                                 }
-                                UpdateLabels();
                             }
                             catch (Exception ekk)
                             {
@@ -259,7 +242,6 @@ namespace WhatsappAuto
             {
                 Console.WriteLine(ma.Message);
             }
-            
         }
 
         private bool CheckContains(string message)
@@ -399,6 +381,16 @@ namespace WhatsappAuto
             Login login = new Login();
             login.Show();
             this.Hide();
+        }
+
+        private void backgroundWorker2_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
+        {
+            UpdateLabels();
+        }
+
+        private void specificWordsLabel_DoubleClick(object sender, EventArgs e)
+        {
+            specificWordsBox.Text = "You deleted this message,This message was deleted";
         }
     }
 
