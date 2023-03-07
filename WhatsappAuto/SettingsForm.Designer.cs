@@ -39,6 +39,10 @@
             this.saveDataBox = new System.Windows.Forms.Button();
             this.overallDeletionBox = new System.Windows.Forms.TextBox();
             this.overallDeletionLabel = new System.Windows.Forms.Label();
+            this.userIDBox = new System.Windows.Forms.TextBox();
+            this.userIdLabel = new System.Windows.Forms.Label();
+            this.passwordBox = new System.Windows.Forms.TextBox();
+            this.passwordLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // profilePathLabel
@@ -91,7 +95,7 @@
             // 
             // reloadDataBox
             // 
-            this.reloadDataBox.Location = new System.Drawing.Point(15, 168);
+            this.reloadDataBox.Location = new System.Drawing.Point(15, 224);
             this.reloadDataBox.Name = "reloadDataBox";
             this.reloadDataBox.Size = new System.Drawing.Size(441, 23);
             this.reloadDataBox.TabIndex = 6;
@@ -101,7 +105,7 @@
             // 
             // saveDataBox
             // 
-            this.saveDataBox.Location = new System.Drawing.Point(474, 168);
+            this.saveDataBox.Location = new System.Drawing.Point(474, 224);
             this.saveDataBox.Name = "saveDataBox";
             this.saveDataBox.Size = new System.Drawing.Size(414, 23);
             this.saveDataBox.TabIndex = 7;
@@ -125,11 +129,47 @@
             this.overallDeletionLabel.TabIndex = 8;
             this.overallDeletionLabel.Text = "Overall Deletion :";
             // 
+            // userIDBox
+            // 
+            this.userIDBox.Location = new System.Drawing.Point(105, 163);
+            this.userIDBox.Name = "userIDBox";
+            this.userIDBox.Size = new System.Drawing.Size(783, 20);
+            this.userIDBox.TabIndex = 11;
+            // 
+            // userIdLabel
+            // 
+            this.userIdLabel.AutoSize = true;
+            this.userIdLabel.Location = new System.Drawing.Point(12, 166);
+            this.userIdLabel.Name = "userIdLabel";
+            this.userIdLabel.Size = new System.Drawing.Size(49, 13);
+            this.userIdLabel.TabIndex = 10;
+            this.userIdLabel.Text = "User ID :";
+            // 
+            // passwordBox
+            // 
+            this.passwordBox.Location = new System.Drawing.Point(105, 195);
+            this.passwordBox.Name = "passwordBox";
+            this.passwordBox.Size = new System.Drawing.Size(783, 20);
+            this.passwordBox.TabIndex = 13;
+            // 
+            // passwordLabel
+            // 
+            this.passwordLabel.AutoSize = true;
+            this.passwordLabel.Location = new System.Drawing.Point(12, 198);
+            this.passwordLabel.Name = "passwordLabel";
+            this.passwordLabel.Size = new System.Drawing.Size(59, 13);
+            this.passwordLabel.TabIndex = 12;
+            this.passwordLabel.Text = "Password :";
+            // 
             // SettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(897, 200);
+            this.ClientSize = new System.Drawing.Size(897, 259);
+            this.Controls.Add(this.passwordBox);
+            this.Controls.Add(this.passwordLabel);
+            this.Controls.Add(this.userIDBox);
+            this.Controls.Add(this.userIdLabel);
             this.Controls.Add(this.overallDeletionBox);
             this.Controls.Add(this.overallDeletionLabel);
             this.Controls.Add(this.saveDataBox);
@@ -161,5 +201,9 @@
         private System.Windows.Forms.Button saveDataBox;
         private System.Windows.Forms.TextBox overallDeletionBox;
         private System.Windows.Forms.Label overallDeletionLabel;
+        private System.Windows.Forms.TextBox userIDBox;
+        private System.Windows.Forms.Label userIdLabel;
+        private System.Windows.Forms.TextBox passwordBox;
+        private System.Windows.Forms.Label passwordLabel;
     }
 }

@@ -20,18 +20,21 @@ namespace WhatsappAuto
 
         private void SettingsForm_Load(object sender, EventArgs e)
         {
-            profilePathBox.Text = Settings.Default.ProfilePath;
-            profileDirectoryBox.Text = Settings.Default.ProfileDirectory;
-            edgeDriverBox.Text = Settings.Default.EdgeDriverLocation;
-            overallDeletionBox.Text = Settings.Default.OverallCount.ToString();
+            LoadData();
         }
 
         private void reloadDataBox_Click(object sender, EventArgs e)
+        {
+            LoadData();
+        }
+        private void LoadData()
         {
             profilePathBox.Text = Settings.Default.ProfilePath;
             profileDirectoryBox.Text = Settings.Default.ProfileDirectory;
             edgeDriverBox.Text = Settings.Default.EdgeDriverLocation;
             overallDeletionBox.Text = Settings.Default.OverallCount.ToString();
+            userIDBox.Text = Settings.Default.UserID;
+            passwordBox.Text = Settings.Default.password;
         }
 
         private void saveDataBox_Click(object sender, EventArgs e)
@@ -40,6 +43,8 @@ namespace WhatsappAuto
             Settings.Default.ProfileDirectory = profileDirectoryBox.Text;
             Settings.Default.EdgeDriverLocation = edgeDriverBox.Text;
             Settings.Default.OverallCount = Int32.Parse(overallDeletionBox.Text);
+            Settings.Default.UserID = userIDBox.Text;
+            Settings.Default.password = passwordBox.Text;
             Settings.Default.Save();
         }
     }

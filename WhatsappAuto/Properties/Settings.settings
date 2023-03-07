@@ -26,5 +26,20 @@
     <Setting Name="OverallCount" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">1800</Value>
     </Setting>
+    <Setting Name="Setting" Type="System.Int64" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="ListOfMessages" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="SpecificWords" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="UserID" Type="System.String" Scope="User">
+      <Value Profile="(Default)">admin</Value>
+    </Setting>
+    <Setting Name="password" Type="System.String" Scope="User">
+      <Value Profile="(Default)">ktmisgreat</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
