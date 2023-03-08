@@ -125,7 +125,7 @@ namespace WhatsappAuto
             this.runAgainButton.TabIndex = 14;
             this.runAgainButton.Text = "Delete";
             this.runAgainButton.UseVisualStyleBackColor = true;
-            this.runAgainButton.Click += new System.EventHandler(this.runAgainButton_Click_1);
+            this.runAgainButton.Click += new System.EventHandler(this.runAgainButton_Click);
             // 
             // headlessCheckBox
             // 

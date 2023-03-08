@@ -273,9 +273,16 @@ namespace WhatsappAuto
             Settings.Default.Save();
         }
 
-        private void runAgainButton_Click_1(object sender, EventArgs e)
+        private void runAgainButton_Click(object sender, EventArgs e)
         {
-            backgroundWorker2.RunWorkerAsync();
+            if(!backgroundWorker2.IsBusy)
+            {
+                backgroundWorker2.RunWorkerAsync();
+            }   
+            else
+            {
+                MessageBox.Show("Process Busy / Deletion Already Running")
+;            }
             //reloadDeletion();
         }
 
@@ -287,71 +294,6 @@ namespace WhatsappAuto
         private void specificDeletion_Click(object sender, EventArgs e)
         {
             specificWordsBox.Text = string.Join(",", searchStrings);
-        }
-
-        private void reloadDeletion(string keywords)
-        {
-            UpdateLabels();
-            try
-            {
-                IList<IWebElement> ChatStartPoint = publicDriver.FindElements(By.XPath("//div[@data-testid='msg-container']"));
-                //testLabel.Text = "";
-                foreach (IWebElement element in ChatStartPoint)
-                {
-                    testLabelText += element.GetAttribute("outerText");
-                }
-                UpdateLabels();
-                foreach (IWebElement webElement in ChatStartPoint)
-                {
-                    try
-                    {
-                        if (webElement.GetAttribute("outerText").Contains(keywords))
-                        {
-                            try
-                            {
-                                webElement.Click();
-                                //var ChatArrow = webElement.FindElement(By.XPath("//span[@data-testid='msg-dblcheck']"));
-                                //Thread.Sleep(500);
-                                var ChatArrow = webElement.FindElement(By.XPath("//span[@data-testid='down-context']"));
-
-                                ChatArrow.Click();
-                                // Thread.Sleep(500);
-                                var DeleteButton = webElement.FindElement(By.XPath("//div[@aria-label='Delete message']"));
-                                DeleteButton.Click();
-
-                                var DeleteForEveryone = publicDriver.FindElements(By.XPath("//div[@data-testid='content']"));
-
-                                foreach (IWebElement deleteButton in DeleteForEveryone)
-                                {
-                                    if (deleteButton.GetAttribute("innerHTML").Contains("Delete for me"))
-                                    {
-                                        deleteButton.Click();
-                                        numberOfDeletedMessages++;
-                                        Settings.Default.OverallCount++;
-                                        Settings.Default.Save();
-                                    }
-                                }
-                                UpdateLabels();
-                            }
-                            catch (Exception ekk)
-                            {
-                                Console.WriteLine(ekk.Message);
-                            }
-
-                        }
-                    }
-                    catch (OpenQA.Selenium.StaleElementReferenceException sere)
-                    {
-                        Console.WriteLine(sere.Message);
-                    }
-
-
-                }
-            }
-            catch (NullReferenceException ma)
-            {
-                Console.WriteLine(ma.Message);
-            }
         }
 
         private void messageViewerButton_Click(object sender, EventArgs e)
