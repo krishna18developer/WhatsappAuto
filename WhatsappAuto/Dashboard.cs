@@ -8,7 +8,12 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Edge;
 using WhatsappAuto.Properties;
 using Application = System.Windows.Forms.Application;
-
+using System.Runtime.InteropServices;
+using System.IO;
+using static System.Net.Mime.MediaTypeNames;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Runtime.InteropServices.ComTypes;
+using System.Runtime.Serialization;
 
 namespace WhatsappAuto
 {
@@ -20,18 +25,24 @@ namespace WhatsappAuto
 #else
         bool isDebug = false;
 #endif
+        [DllImport("user32.dll")]
+        static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
+        const int SW_MINIMIZE = 6;
+
+        // get the handle of the window you want to minimize
+        IntPtr windowHandle;// ...
+
+        // call the ShowWindow function to minimize the window
 
         EdgeOptions options;
         string ContactName = Settings.Default.ContactName; //BookMyShow
-        string StartingMessage = "s";
-        string EndingMessage = "fdsf";
         bool headless = Settings.Default.Headless;
         int numberOfDeletedMessages = 0;
         string testLabelText = "Test label";
         EdgeDriver publicDriver;
         TestMessageViewer TMV = new TestMessageViewer();
         List<string> searchStrings = new List<string> { "You deleted this message", "This message was deleted", "Wait", "wait", "Boi", "boi", "Aww", "aww", "Bey", "bey", "Opened" };
-        List<string> basicSearchStrings = new List<string> { "You deleted this message", "This message was deleted" };
         public Dashboard()
         {
             InitializeComponent();
@@ -58,7 +69,6 @@ namespace WhatsappAuto
         {
             noOfDeletedMessagesLabel.Text = "No of deleted Messages : " + numberOfDeletedMessages;
             //testLabel.Text = testLabelText;
-            TMV.setMessages(testLabelText);
             overallDeletedMessagesLabel.Text = "Overall deleted Messages : " + Settings.Default.OverallCount;
         }
         private void closeEdgeButton_Click(object sender, EventArgs e)
@@ -120,17 +130,27 @@ namespace WhatsappAuto
 
         private void thisMessageDeletedButton_Click(object sender, EventArgs e)
         {
-            backgroundWorker1.RunWorkerAsync();
-           // deletionLogic();
+            if(!backgroundWorker1.IsBusy)
+            {
+                backgroundWorker1.RunWorkerAsync();
+            }
+            else
+            {
+                MessageBox.Show("Process Busy / Deletion Already Running");
+            }
+            // deletionLogic();
         }
 
         private void backgroundWorker1_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
-            deletionLogic();
+            deletionLogic(killEdge: killEdgeCheckBox.Checked);
         }
-        public void deletionLogic()
+        public void deletionLogic(bool killEdge)
         {
-            killEdgePrograms();
+            if (killEdge)
+            {
+                killEdgePrograms();
+            }
             Thread.Sleep(500);
             options = new EdgeOptions();
             string profilePath = Settings.Default.ProfilePath;
@@ -156,6 +176,7 @@ namespace WhatsappAuto
                 browser.Navigate().GoToUrl("https://web.whatsapp.com/");    
                 Thread.Sleep(10000);
                 IWebElement contactName;
+
             contactTryer:
                 try
                 {
@@ -172,76 +193,169 @@ namespace WhatsappAuto
                 }
                 //Thread.Sleep(2000);
 
-                publicDriver = browser;
+                //publicDriver = browser;
+
+                Process[] processes = Process.GetProcessesByName("WindowsTerminal.exe");
+                foreach(Process process in processes)
+                {
+                    windowHandle = process.MainWindowHandle;
+                    ShowWindow(windowHandle, SW_MINIMIZE);
+                    MessageBox.Show(windowHandle.ToString());
+                }
+
                 //reloadDeletion();
+                MessageBox.Show("Tes");
+                serializer(browser);
             }
             catch (Exception ed)
             {
                 Console.WriteLine(ed);
             }
+
+
+        }
+        public void SerializeObject<T>(string filename, T obj)
+        {
+            Stream stream = File.Open(filename, FileMode.Create);
+            BinaryFormatter binaryFormatter = new BinaryFormatter();
+            binaryFormatter.Serialize(stream, obj);
+            stream.Close();
+        }
+
+        public T DeSerializeObject<T>(string filename)
+        {
+            T objectToBeDeSerialized;
+            Stream stream = File.Open(filename, FileMode.Open);
+            BinaryFormatter binaryFormatter = new BinaryFormatter();
+            objectToBeDeSerialized = (T)binaryFormatter.Deserialize(stream);
+            stream.Close();
+            return objectToBeDeSerialized;
+        }
+
+        private void serializer(EdgeDriver edgeDriver)
+        {
+            string folderPath = AppDomain.CurrentDomain.BaseDirectory + "Data";
+
+            if (!Directory.Exists(folderPath))
+            {
+                // Create the directory
+                Directory.CreateDirectory(folderPath);
+            }
+            string filePath = folderPath + @"\edgedriverHandle.bin";
+          //  SerializeObject<EdgeDriver>(filePath, publicDriver);
+
+            if(!File.Exists(filePath))
+            {
+                File.Create(filePath).Close();
+            }
+            BinaryFormatter formatter = new BinaryFormatter();
+            MemoryStream stream = new MemoryStream();
+            formatter.Serialize(stream, edgeDriver);
+
+            // Convert the serialized data to a byte array
+            byte[] data = stream.ToArray();
+
+            MessageBox.Show("Serial");
+
+            File.WriteAllBytes(filePath, data);
+        }
+        private bool deserializer()
+        {
+            string folderPath = AppDomain.CurrentDomain.BaseDirectory + "Data";
+            bool result = false;
+            if (!Directory.Exists(folderPath))
+            {
+                // Create the directory
+                Directory.CreateDirectory(folderPath);
+            }
+            else
+            {
+                string filePath = folderPath + @"\edgedriverHandle.bin";
+                if(File.Exists(filePath))
+                {
+                    //publicDriver = DeSerializeObject<EdgeDriver>(filePath);
+
+                    byte[] data = File.ReadAllBytes(filePath);
+                    BinaryFormatter formatter = new BinaryFormatter();
+                    MemoryStream stream = new MemoryStream(data);
+
+                    publicDriver = (EdgeDriver)formatter.Deserialize(stream);
+
+                    result = true;
+                }
+                else
+                {
+                    MessageBox.Show("No Previous Edge Handle Data Found Please open Whatsapp First");
+                    result = false;
+                }
+            }
+            return result;
         }
         public void reloadDeletion()
         {
-            try
+            if(deserializer())
             {
-                IList<IWebElement> ChatStartPoint = publicDriver.FindElements(By.XPath("//div[@data-testid='msg-container']"));
-                //testLabel.Text = "";
-                foreach (IWebElement element in ChatStartPoint)
+                try
                 {
-                    testLabelText += element.GetAttribute("outerText");
-                }
-
-                foreach (IWebElement webElement in ChatStartPoint)
-                {
-                    try
+                    IList<IWebElement> ChatStartPoint = publicDriver.FindElements(By.XPath("//div[@data-testid='msg-container']"));
+                    //testLabel.Text = "";
+                    foreach (IWebElement element in ChatStartPoint)
                     {
-                        //if (webElement.GetAttribute("outerText").Contains("You deleted this message") || webElement.GetAttribute("outerText").Contains("This message was deleted"))
-                        if(CheckContains(webElement.GetAttribute("outerText")))
+                        testLabelText += element.GetAttribute("outerText");
+                    }
+                    MessageViewerFiler(testLabelText);
+                    foreach (IWebElement webElement in ChatStartPoint)
+                    {
+                        try
                         {
-                            try
+                            //if (webElement.GetAttribute("outerText").Contains("You deleted this message") || webElement.GetAttribute("outerText").Contains("This message was deleted"))
+                            if (CheckContains(webElement.GetAttribute("outerText")))
                             {
-                                webElement.Click();
-                                //var ChatArrow = webElement.FindElement(By.XPath("//span[@data-testid='msg-dblcheck']"));
-                                //Thread.Sleep(500);
-                                var ChatArrow = webElement.FindElement(By.XPath("//span[@data-testid='down-context']"));
-
-                                ChatArrow.Click();
-                                // Thread.Sleep(500);
-                                var DeleteButton = webElement.FindElement(By.XPath("//div[@aria-label='Delete message']"));
-                                DeleteButton.Click();
-
-                                var DeleteForEveryone = publicDriver.FindElements(By.XPath("//div[@data-testid='content']"));
-
-                                foreach (IWebElement deleteButton in DeleteForEveryone)
+                                try
                                 {
-                                    if (deleteButton.GetAttribute("innerHTML").Contains("Delete for me"))
+                                    webElement.Click();
+                                    //var ChatArrow = webElement.FindElement(By.XPath("//span[@data-testid='msg-dblcheck']"));
+                                    //Thread.Sleep(500);
+                                    var ChatArrow = webElement.FindElement(By.XPath("//span[@data-testid='down-context']"));
+
+                                    ChatArrow.Click();
+                                    // Thread.Sleep(500);
+                                    var DeleteButton = webElement.FindElement(By.XPath("//div[@aria-label='Delete message']"));
+                                    DeleteButton.Click();
+
+                                    var DeleteForEveryone = publicDriver.FindElements(By.XPath("//div[@data-testid='content']"));
+
+                                    foreach (IWebElement deleteButton in DeleteForEveryone)
                                     {
-                                        deleteButton.Click();
-                                        numberOfDeletedMessages++;
-                                        Settings.Default.OverallCount++;
-                                        Settings.Default.Save();
+                                        if (deleteButton.GetAttribute("innerHTML").Contains("Delete for me"))
+                                        {
+                                            deleteButton.Click();
+                                            numberOfDeletedMessages++;
+                                            Settings.Default.OverallCount++;
+                                            Settings.Default.Save();
+                                        }
                                     }
                                 }
-                            }
-                            catch (Exception ekk)
-                            {
-                                Console.WriteLine(ekk.Message);
-                            }
+                                catch (Exception ekk)
+                                {
+                                    Console.WriteLine(ekk.Message);
+                                }
 
+                            }
                         }
-                    }
-                    catch(OpenQA.Selenium.StaleElementReferenceException sere)
-                    {
-                        Console.WriteLine(sere.Message);
-                    }
-                   
+                        catch (OpenQA.Selenium.StaleElementReferenceException sere)
+                        {
+                            Console.WriteLine(sere.Message);
+                        }
 
+
+                    }
                 }
-            }
-            catch(NullReferenceException ma)
-            {
-                Console.WriteLine(ma.Message);
-            }
+                catch (NullReferenceException ma)
+                {
+                    Console.WriteLine(ma.Message);
+                }
+            }   
         }
 
         private bool CheckContains(string message)
@@ -249,8 +363,6 @@ namespace WhatsappAuto
             bool result = false;
             char[] seperators = { ',' };
             List<string> searchBoxSample = specificWordsBox.Text.Split(seperators, StringSplitOptions.RemoveEmptyEntries).ToList();
-            searchBoxSample.Add("You deleted this message");
-            searchBoxSample.Add("This message was deleted");
             //result = searchStrings.Any(message.Contains);
 
             searchBoxSample = searchBoxSample.Distinct().ToList();
@@ -281,8 +393,8 @@ namespace WhatsappAuto
             }   
             else
             {
-                MessageBox.Show("Process Busy / Deletion Already Running")
-;            }
+                MessageBox.Show("Process Busy / Deletion Already Running");        
+            }
             //reloadDeletion();
         }
 
@@ -297,8 +409,14 @@ namespace WhatsappAuto
         }
 
         private void messageViewerButton_Click(object sender, EventArgs e)
-        {           
-            TMV.Show();
+        {
+            TMV.setContactName(contactNameBox.Text);
+            
+            try
+            {
+            
+            }
+            
         }
 
         private void specificWordsBox_TextChanged(object sender, EventArgs e)
@@ -332,7 +450,50 @@ namespace WhatsappAuto
 
         private void specificWordsLabel_DoubleClick(object sender, EventArgs e)
         {
-            specificWordsBox.Text = "You deleted this message,This message was deleted";
+            if(specificWordsBox.Text == "" || (specificWordsBox.Text.Contains("You deleted this message,This message was deleted")))
+            {
+                specificWordsBox.Text = "You deleted this message,This message was deleted";
+            }
+            else
+            {
+                specificWordsBox.Text += ",You deleted this message,This message was deleted";
+            }
+            
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            MessageViewerFiler("");
+        }
+
+        private void MessageViewerFiler(string text)
+        {
+            string folderPath = AppDomain.CurrentDomain.BaseDirectory + "Data";
+
+            if (!Directory.Exists(folderPath))
+            {
+                // Create the directory
+                Directory.CreateDirectory(folderPath);
+                Console.WriteLine("Data Folder created successfully.");
+
+            }
+            else
+            {
+                Console.WriteLine("Data Folder already exists.");
+                string filePath = folderPath + @"\" + ContactName + "-messages.bin";
+
+                if (File.Exists(filePath))
+                {
+                    File.AppendAllText(filePath, text);
+                }
+                else
+                {
+                    File.WriteAllText(filePath, text);
+                }
+                Console.WriteLine("Message saved successfully.");
+
+            }
+
         }
     }
 

@@ -28,10 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.MessageBox = new System.Windows.Forms.TextBox();
-            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // MessageBox
@@ -42,10 +39,6 @@
             this.MessageBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.MessageBox.Size = new System.Drawing.Size(660, 522);
             this.MessageBox.TabIndex = 0;
-            // 
-            // backgroundWorker1
-            // 
-            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
             // 
             // TestMessageViewer
             // 
@@ -64,7 +57,5 @@
         #endregion
 
         private System.Windows.Forms.TextBox MessageBox;
-        private System.ComponentModel.BackgroundWorker backgroundWorker1;
-        private System.Windows.Forms.Timer timer1;
     }
 }
