@@ -32,6 +32,7 @@ namespace WhatsappAuto
             profilePathBox.Text = Settings.Default.ProfilePath;
             profileDirectoryBox.Text = Settings.Default.ProfileDirectory;
             edgeDriverBox.Text = Settings.Default.EdgeDriverLocation;
+            whatsappURLBox.Text = Settings.Default.URL;
             overallDeletionBox.Text = Settings.Default.OverallCount.ToString();
             userIDBox.Text = Settings.Default.UserID;
             passwordBox.Text = Settings.Default.password;
@@ -42,6 +43,7 @@ namespace WhatsappAuto
             Settings.Default.ProfilePath = profilePathBox.Text;
             Settings.Default.ProfileDirectory = profileDirectoryBox.Text;
             Settings.Default.EdgeDriverLocation = edgeDriverBox.Text;
+            Settings.Default.URL = whatsappURLBox.Text;
             Settings.Default.OverallCount = Int32.Parse(overallDeletionBox.Text);
             Settings.Default.UserID = userIDBox.Text;
             Settings.Default.password = passwordBox.Text;

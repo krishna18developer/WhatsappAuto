@@ -178,5 +178,41 @@ namespace WhatsappAuto.Properties {
                 this["password"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool KillEdgeCheck {
+            get {
+                return ((bool)(this["KillEdgeCheck"]));
+            }
+            set {
+                this["KillEdgeCheck"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://web.whatsapp.com/")]
+        public string URL {
+            get {
+                return ((string)(this["URL"]));
+            }
+            set {
+                this["URL"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("4A695CL21ACN3Z3J")]
+        public string EncryptionKey {
+            get {
+                return ((string)(this["EncryptionKey"]));
+            }
+            set {
+                this["EncryptionKey"] = value;
+            }
+        }
     }
 }

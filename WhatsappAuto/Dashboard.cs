@@ -10,13 +10,13 @@ using WhatsappAuto.Properties;
 using Application = System.Windows.Forms.Application;
 using System.Runtime.InteropServices;
 using System.IO;
-using static System.Net.Mime.MediaTypeNames;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Runtime.InteropServices.ComTypes;
-using System.Runtime.Serialization;
+using Timer = System.Windows.Forms.Timer;
+
 
 namespace WhatsappAuto
 {
+    [Serializable]
     public partial class Dashboard : Form
     {
         //string Mode = "Debug";
@@ -25,27 +25,30 @@ namespace WhatsappAuto
 #else
         bool isDebug = false;
 #endif
-        [DllImport("user32.dll")]
-        static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
-
-        const int SW_MINIMIZE = 6;
-
-        // get the handle of the window you want to minimize
-        IntPtr windowHandle;// ...
-
-        // call the ShowWindow function to minimize the window
-
         EdgeOptions options;
+
+        private readonly Timer UIUpdationTimer = new Timer();
+
         string ContactName = Settings.Default.ContactName; //BookMyShow
         bool headless = Settings.Default.Headless;
         int numberOfDeletedMessages = 0;
         string testLabelText = "Test label";
         EdgeDriver publicDriver;
         TestMessageViewer TMV = new TestMessageViewer();
+        DataEncryptor dataEncryptor = new DataEncryptor();
         List<string> searchStrings = new List<string> { "You deleted this message", "This message was deleted", "Wait", "wait", "Boi", "boi", "Aww", "aww", "Bey", "bey", "Opened" };
         public Dashboard()
         {
             InitializeComponent();
+
+            UIUpdationTimer.Interval = 1000; // Replace with the interval (in milliseconds) you want to use
+            UIUpdationTimer.Tick += UIUpdationTimer_Tick;
+            UIUpdationTimer.Start();
+        }
+
+        private void UIUpdationTimer_Tick(object sender, EventArgs e)
+        {
+            UpdateLabels();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -58,12 +61,13 @@ namespace WhatsappAuto
             {
                 this.Text += " - Release";
             }
-            UpdateLabels();
+            //UpdateLabels();
             //killEdgePrograms();
             //Thread t = new Thread(new ThreadStart(UpdateLabels));
             //t.Start();
             contactNameBox.Text = ContactName;
             specificWordsBox.Text = Settings.Default.SpecificWords;
+            killEdgeCheckBox.Checked = Settings.Default.KillEdgeCheck;
         }
         private void UpdateLabels()
         {
@@ -102,11 +106,29 @@ namespace WhatsappAuto
         {
             foreach (var process in Process.GetProcessesByName("msedge"))
             {
-                process.Kill();
+                try
+                {
+                    process.Kill();
+
+                }
+                catch(Exception e1)
+                {
+                    Console.WriteLine(e1.ToString());
+                }
             }
+
             foreach (var process in Process.GetProcessesByName("msedgedriver"))
             {
-                process.Kill();
+
+                try
+                {
+                    process.Kill();
+
+                }
+                catch (Exception e1)
+                {
+                    Console.WriteLine(e1.ToString());
+                }
             }
         }
 
@@ -173,7 +195,7 @@ namespace WhatsappAuto
                 //EdgeDriver browser = new EdgeDriver(@"F:\Krishna Teja\Softwares\edgedriver_win64\msedgedriver.exe",options);
                 EdgeDriver browser = new EdgeDriver(service, options);
 
-                browser.Navigate().GoToUrl("https://web.whatsapp.com/");    
+                browser.Navigate().GoToUrl(Settings.Default.URL);    
                 Thread.Sleep(10000);
                 IWebElement contactName;
 
@@ -193,19 +215,9 @@ namespace WhatsappAuto
                 }
                 //Thread.Sleep(2000);
 
-                //publicDriver = browser;
-
-                Process[] processes = Process.GetProcessesByName("WindowsTerminal.exe");
-                foreach(Process process in processes)
-                {
-                    windowHandle = process.MainWindowHandle;
-                    ShowWindow(windowHandle, SW_MINIMIZE);
-                    MessageBox.Show(windowHandle.ToString());
-                }
-
+                publicDriver = browser;
                 //reloadDeletion();
-                MessageBox.Show("Tes");
-                serializer(browser);
+                //serializer(browser);
             }
             catch (Exception ed)
             {
@@ -214,24 +226,6 @@ namespace WhatsappAuto
 
 
         }
-        public void SerializeObject<T>(string filename, T obj)
-        {
-            Stream stream = File.Open(filename, FileMode.Create);
-            BinaryFormatter binaryFormatter = new BinaryFormatter();
-            binaryFormatter.Serialize(stream, obj);
-            stream.Close();
-        }
-
-        public T DeSerializeObject<T>(string filename)
-        {
-            T objectToBeDeSerialized;
-            Stream stream = File.Open(filename, FileMode.Open);
-            BinaryFormatter binaryFormatter = new BinaryFormatter();
-            objectToBeDeSerialized = (T)binaryFormatter.Deserialize(stream);
-            stream.Close();
-            return objectToBeDeSerialized;
-        }
-
         private void serializer(EdgeDriver edgeDriver)
         {
             string folderPath = AppDomain.CurrentDomain.BaseDirectory + "Data";
@@ -242,58 +236,87 @@ namespace WhatsappAuto
                 Directory.CreateDirectory(folderPath);
             }
             string filePath = folderPath + @"\edgedriverHandle.bin";
-          //  SerializeObject<EdgeDriver>(filePath, publicDriver);
-
+            //  SerializeObject<EdgeDriver>(filePath, publicDriver);
             if(!File.Exists(filePath))
             {
                 File.Create(filePath).Close();
             }
-            BinaryFormatter formatter = new BinaryFormatter();
-            MemoryStream stream = new MemoryStream();
-            formatter.Serialize(stream, edgeDriver);
+            SerializedEdgeDriver serializedDriver = new SerializedEdgeDriver();
+            serializedDriver.Url = edgeDriver.Url;
+            serializedDriver.Title = edgeDriver.Title;
+            serializedDriver.WindowHandle = edgeDriver.CurrentWindowHandle;
 
-            // Convert the serialized data to a byte array
-            byte[] data = stream.ToArray();
-
-            MessageBox.Show("Serial");
-
-            File.WriteAllBytes(filePath, data);
+            // Serialize the serializedDriver object to a byte array
+            BinaryFormatter bf = new BinaryFormatter();
+            using (MemoryStream ms = new MemoryStream())
+            {
+                bf.Serialize(ms, serializedDriver);
+                byte[] data = ms.ToArray();
+                File.WriteAllBytes(filePath, data);
+            }
         }
         private bool deserializer()
         {
             string folderPath = AppDomain.CurrentDomain.BaseDirectory + "Data";
             bool result = false;
+           
             if (!Directory.Exists(folderPath))
             {
                 // Create the directory
                 Directory.CreateDirectory(folderPath);
             }
+            string filePath = folderPath + @"\edgedriverHandle.bin";
+            if (File.Exists(filePath))
+            {
+                //publicDriver = DeSerializeObject<EdgeDriver>(filePath);
+
+                SerializedEdgeDriver deserializedDriver;
+                BinaryFormatter bf = new BinaryFormatter();
+                byte[] data = File.ReadAllBytes(filePath);
+
+                using (MemoryStream ms = new MemoryStream(data))
+                {
+                    deserializedDriver = (SerializedEdgeDriver)bf.Deserialize(ms);
+                    
+                    try
+                    {
+                        publicDriver.Url = deserializedDriver.Url;
+                        //publicDriver.Title = deserializedDriver.Title;
+                        publicDriver.SwitchTo().Window(deserializedDriver.WindowHandle);
+
+                        MessageBox.Show("Des");
+                    }
+                    catch(Exception ew)
+                    {
+                        EdgeOptions option = new EdgeOptions();
+                        option.AddArgument("--headless");
+                        publicDriver = new EdgeDriver(option);
+
+                        Console.WriteLine(ew.ToString());
+
+                    }
+
+                }
+
+                // Recreate the EdgeDriver instance using the extracted properties
+
+
+                result = true;
+            }
             else
             {
-                string filePath = folderPath + @"\edgedriverHandle.bin";
-                if(File.Exists(filePath))
-                {
-                    //publicDriver = DeSerializeObject<EdgeDriver>(filePath);
-
-                    byte[] data = File.ReadAllBytes(filePath);
-                    BinaryFormatter formatter = new BinaryFormatter();
-                    MemoryStream stream = new MemoryStream(data);
-
-                    publicDriver = (EdgeDriver)formatter.Deserialize(stream);
-
-                    result = true;
-                }
-                else
-                {
-                    MessageBox.Show("No Previous Edge Handle Data Found Please open Whatsapp First");
-                    result = false;
-                }
+                MessageBox.Show("No Previous Edge Handle Data Found Please open Whatsapp First");
+                result = false;
+            }
+            if(result == false)
+            {
+                MessageBox.Show("No Previous Edge Handle Data Found Please open Whatsapp First !");
             }
             return result;
         }
         public void reloadDeletion()
         {
-            if(deserializer())
+            if(true)
             {
                 try
                 {
@@ -414,7 +437,11 @@ namespace WhatsappAuto
             
             try
             {
-            
+                TMV.Show();
+            }
+            catch(Exception e1)
+            {
+                Console.WriteLine(e1.ToString());
             }
             
         }
@@ -445,7 +472,7 @@ namespace WhatsappAuto
 
         private void backgroundWorker2_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
         {
-            UpdateLabels();
+           // UpdateLabels();
         }
 
         private void specificWordsLabel_DoubleClick(object sender, EventArgs e)
@@ -459,11 +486,6 @@ namespace WhatsappAuto
                 specificWordsBox.Text += ",You deleted this message,This message was deleted";
             }
             
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            MessageViewerFiler("");
         }
 
         private void MessageViewerFiler(string text)
@@ -481,19 +503,34 @@ namespace WhatsappAuto
             {
                 Console.WriteLine("Data Folder already exists.");
                 string filePath = folderPath + @"\" + ContactName + "-messages.bin";
-
+                string encryptedText = dataEncryptor.Encryptor(text);
                 if (File.Exists(filePath))
                 {
-                    File.AppendAllText(filePath, text);
+                    
+                   // File.AppendAllText(filePath, text);
+                    File.AppendAllText(filePath, encryptedText);
                 }
                 else
                 {
-                    File.WriteAllText(filePath, text);
+                   // File.WriteAllText(filePath, text);
+                    File.WriteAllText(filePath, encryptedText);
                 }
                 Console.WriteLine("Message saved successfully.");
 
             }
 
+        }
+
+        private void killEdgeCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            Settings.Default.KillEdgeCheck = killEdgeCheckBox.Checked;
+            Settings.Default.Save();
+        }
+
+        private void dataFolderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string folderPath = AppDomain.CurrentDomain.BaseDirectory + "Data";
+            Process.Start(folderPath);
         }
     }
 

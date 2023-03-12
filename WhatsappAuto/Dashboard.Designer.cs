@@ -53,6 +53,7 @@ namespace WhatsappAuto
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.logoutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.killEdgeCheckBox = new System.Windows.Forms.CheckBox();
+            this.dataFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -220,6 +221,7 @@ namespace WhatsappAuto
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.settingsToolStripMenuItem,
+            this.dataFolderToolStripMenuItem,
             this.logoutToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -250,6 +252,14 @@ namespace WhatsappAuto
             this.killEdgeCheckBox.TabIndex = 23;
             this.killEdgeCheckBox.Text = "Kill Edge";
             this.killEdgeCheckBox.UseVisualStyleBackColor = true;
+            this.killEdgeCheckBox.CheckedChanged += new System.EventHandler(this.killEdgeCheckBox_CheckedChanged);
+            // 
+            // dataFolderToolStripMenuItem
+            // 
+            this.dataFolderToolStripMenuItem.Name = "dataFolderToolStripMenuItem";
+            this.dataFolderToolStripMenuItem.Size = new System.Drawing.Size(79, 20);
+            this.dataFolderToolStripMenuItem.Text = "Data Folder";
+            this.dataFolderToolStripMenuItem.Click += new System.EventHandler(this.dataFolderToolStripMenuItem_Click);
             // 
             // Dashboard
             // 
@@ -308,6 +318,7 @@ namespace WhatsappAuto
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem logoutToolStripMenuItem;
         private System.Windows.Forms.CheckBox killEdgeCheckBox;
+        private System.Windows.Forms.ToolStripMenuItem dataFolderToolStripMenuItem;
     }
 }
 

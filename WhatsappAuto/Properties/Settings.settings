@@ -41,5 +41,14 @@
     <Setting Name="password" Type="System.String" Scope="User">
       <Value Profile="(Default)">ktmisgreat</Value>
     </Setting>
+    <Setting Name="KillEdgeCheck" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="URL" Type="System.String" Scope="User">
+      <Value Profile="(Default)">https://web.whatsapp.com/</Value>
+    </Setting>
+    <Setting Name="EncryptionKey" Type="System.String" Scope="User">
+      <Value Profile="(Default)">4A695CL21ACN3Z3J</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
