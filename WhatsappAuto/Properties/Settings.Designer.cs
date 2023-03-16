@@ -109,7 +109,7 @@ namespace WhatsappAuto.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1800")]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int OverallCount {
             get {
                 return ((int)(this["OverallCount"]));
@@ -169,7 +169,7 @@ namespace WhatsappAuto.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("ktmisgreat")]
+        [global::System.Configuration.DefaultSettingValueAttribute("ktm")]
         public string password {
             get {
                 return ((string)(this["password"]));
