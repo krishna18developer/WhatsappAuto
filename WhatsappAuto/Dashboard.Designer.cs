@@ -31,8 +31,6 @@ namespace WhatsappAuto
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Dashboard));
-            this.totalDeletedMssgesLabel = new System.Windows.Forms.Label();
-            this.AllMessagesLabel = new System.Windows.Forms.Label();
             this.closeAppButton = new System.Windows.Forms.Button();
             this.contactNameLabel = new System.Windows.Forms.Label();
             this.contactNameBox = new System.Windows.Forms.TextBox();
@@ -55,29 +53,9 @@ namespace WhatsappAuto
             this.whatsappAutoMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
-            // totalDeletedMssgesLabel
-            // 
-            this.totalDeletedMssgesLabel.AutoSize = true;
-            this.totalDeletedMssgesLabel.Location = new System.Drawing.Point(11, 151);
-            this.totalDeletedMssgesLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.totalDeletedMssgesLabel.Name = "totalDeletedMssgesLabel";
-            this.totalDeletedMssgesLabel.Size = new System.Drawing.Size(147, 13);
-            this.totalDeletedMssgesLabel.TabIndex = 6;
-            this.totalDeletedMssgesLabel.Text = "Total You Delete Messages : ";
-            // 
-            // AllMessagesLabel
-            // 
-            this.AllMessagesLabel.AutoSize = true;
-            this.AllMessagesLabel.Location = new System.Drawing.Point(14, 189);
-            this.AllMessagesLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.AllMessagesLabel.Name = "AllMessagesLabel";
-            this.AllMessagesLabel.Size = new System.Drawing.Size(98, 13);
-            this.AllMessagesLabel.TabIndex = 8;
-            this.AllMessagesLabel.Text = "All Our Messages : ";
-            // 
             // closeAppButton
             // 
-            this.closeAppButton.Location = new System.Drawing.Point(477, 359);
+            this.closeAppButton.Location = new System.Drawing.Point(475, 289);
             this.closeAppButton.Margin = new System.Windows.Forms.Padding(2);
             this.closeAppButton.Name = "closeAppButton";
             this.closeAppButton.Size = new System.Drawing.Size(205, 94);
@@ -89,7 +67,7 @@ namespace WhatsappAuto
             // contactNameLabel
             // 
             this.contactNameLabel.AutoSize = true;
-            this.contactNameLabel.Location = new System.Drawing.Point(11, 35);
+            this.contactNameLabel.Location = new System.Drawing.Point(12, 35);
             this.contactNameLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.contactNameLabel.Name = "contactNameLabel";
             this.contactNameLabel.Size = new System.Drawing.Size(81, 13);
@@ -107,7 +85,7 @@ namespace WhatsappAuto
             // 
             // thisMessageDeletedButton
             // 
-            this.thisMessageDeletedButton.Location = new System.Drawing.Point(14, 359);
+            this.thisMessageDeletedButton.Location = new System.Drawing.Point(12, 289);
             this.thisMessageDeletedButton.Margin = new System.Windows.Forms.Padding(2);
             this.thisMessageDeletedButton.Name = "thisMessageDeletedButton";
             this.thisMessageDeletedButton.Size = new System.Drawing.Size(205, 94);
@@ -118,7 +96,7 @@ namespace WhatsappAuto
             // 
             // runAgainButton
             // 
-            this.runAgainButton.Location = new System.Drawing.Point(245, 359);
+            this.runAgainButton.Location = new System.Drawing.Point(243, 289);
             this.runAgainButton.Margin = new System.Windows.Forms.Padding(2);
             this.runAgainButton.Name = "runAgainButton";
             this.runAgainButton.Size = new System.Drawing.Size(205, 94);
@@ -161,14 +139,15 @@ namespace WhatsappAuto
             this.overallDeletedMessagesLabel.Location = new System.Drawing.Point(242, 35);
             this.overallDeletedMessagesLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.overallDeletedMessagesLabel.Name = "overallDeletedMessagesLabel";
-            this.overallDeletedMessagesLabel.Size = new System.Drawing.Size(138, 13);
+            this.overallDeletedMessagesLabel.Padding = new System.Windows.Forms.Padding(0, 0, 100, 0);
+            this.overallDeletedMessagesLabel.Size = new System.Drawing.Size(238, 13);
             this.overallDeletedMessagesLabel.TabIndex = 17;
             this.overallDeletedMessagesLabel.Text = "Overall deleted Messages : ";
             // 
             // specificWordsLabel
             // 
             this.specificWordsLabel.AutoSize = true;
-            this.specificWordsLabel.Location = new System.Drawing.Point(14, 220);
+            this.specificWordsLabel.Location = new System.Drawing.Point(12, 150);
             this.specificWordsLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.specificWordsLabel.Name = "specificWordsLabel";
             this.specificWordsLabel.Size = new System.Drawing.Size(121, 13);
@@ -178,7 +157,7 @@ namespace WhatsappAuto
             // 
             // specificWordsBox
             // 
-            this.specificWordsBox.Location = new System.Drawing.Point(14, 250);
+            this.specificWordsBox.Location = new System.Drawing.Point(12, 180);
             this.specificWordsBox.Margin = new System.Windows.Forms.Padding(2);
             this.specificWordsBox.Multiline = true;
             this.specificWordsBox.Name = "specificWordsBox";
@@ -189,7 +168,7 @@ namespace WhatsappAuto
             // 
             // specificDeletion
             // 
-            this.specificDeletion.Location = new System.Drawing.Point(477, 250);
+            this.specificDeletion.Location = new System.Drawing.Point(475, 180);
             this.specificDeletion.Margin = new System.Windows.Forms.Padding(2);
             this.specificDeletion.Name = "specificDeletion";
             this.specificDeletion.Size = new System.Drawing.Size(205, 94);
@@ -200,7 +179,7 @@ namespace WhatsappAuto
             // 
             // messageViewerButton
             // 
-            this.messageViewerButton.Location = new System.Drawing.Point(477, 139);
+            this.messageViewerButton.Location = new System.Drawing.Point(475, 69);
             this.messageViewerButton.Margin = new System.Windows.Forms.Padding(2);
             this.messageViewerButton.Name = "messageViewerButton";
             this.messageViewerButton.Size = new System.Drawing.Size(205, 94);
@@ -257,7 +236,7 @@ namespace WhatsappAuto
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(703, 467);
+            this.ClientSize = new System.Drawing.Size(703, 396);
             this.Controls.Add(this.killEdgeCheckBox);
             this.Controls.Add(this.whatsappAutoMenuStrip);
             this.Controls.Add(this.messageViewerButton);
@@ -272,8 +251,6 @@ namespace WhatsappAuto
             this.Controls.Add(this.contactNameBox);
             this.Controls.Add(this.contactNameLabel);
             this.Controls.Add(this.closeAppButton);
-            this.Controls.Add(this.AllMessagesLabel);
-            this.Controls.Add(this.totalDeletedMssgesLabel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(2);
@@ -289,8 +266,6 @@ namespace WhatsappAuto
         }
 
         #endregion
-        private System.Windows.Forms.Label totalDeletedMssgesLabel;
-        private System.Windows.Forms.Label AllMessagesLabel;
         private System.Windows.Forms.Button closeAppButton;
         private System.Windows.Forms.Label contactNameLabel;
         private System.Windows.Forms.TextBox contactNameBox;
