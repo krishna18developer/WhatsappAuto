@@ -30,7 +30,6 @@ namespace WhatsappAuto
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Dashboard));
             this.totalDeletedMssgesLabel = new System.Windows.Forms.Label();
             this.AllMessagesLabel = new System.Windows.Forms.Label();
@@ -48,13 +47,12 @@ namespace WhatsappAuto
             this.specificWordsBox = new System.Windows.Forms.TextBox();
             this.specificDeletion = new System.Windows.Forms.Button();
             this.messageViewerButton = new System.Windows.Forms.Button();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.whatsappAutoMenuStrip = new System.Windows.Forms.MenuStrip();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dataFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.logoutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.killEdgeCheckBox = new System.Windows.Forms.CheckBox();
-            this.dataFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuStrip1.SuspendLayout();
+            this.whatsappAutoMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // totalDeletedMssgesLabel
@@ -149,11 +147,11 @@ namespace WhatsappAuto
             this.noOfDeletedMessagesLabel.TabIndex = 16;
             this.noOfDeletedMessagesLabel.Text = "No of deleted Messages : ";
             // 
-            // backgroundWorker1
+            // whatsappOpenBackgroundWorker
             // 
             this.whatsappOpenBackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.whatsappOpenBackgroundWorker_DoWork);
             // 
-            // backgroundWorker2
+            // deletionLogicBackgroundWorker
             // 
             this.deletionLogicBackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.deletionLogicBackgroundWorker_DoWork);
             // 
@@ -211,22 +209,17 @@ namespace WhatsappAuto
             this.messageViewerButton.UseVisualStyleBackColor = true;
             this.messageViewerButton.Click += new System.EventHandler(this.messageViewerButton_Click);
             // 
-            // contextMenuStrip1
+            // whatsappAutoMenuStrip
             // 
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
-            // 
-            // menuStrip1
-            // 
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.whatsappAutoMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.settingsToolStripMenuItem,
             this.dataFolderToolStripMenuItem,
             this.logoutToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(703, 24);
-            this.menuStrip1.TabIndex = 22;
-            this.menuStrip1.Text = "menuStrip1";
+            this.whatsappAutoMenuStrip.Location = new System.Drawing.Point(0, 0);
+            this.whatsappAutoMenuStrip.Name = "whatsappAutoMenuStrip";
+            this.whatsappAutoMenuStrip.Size = new System.Drawing.Size(703, 24);
+            this.whatsappAutoMenuStrip.TabIndex = 22;
+            this.whatsappAutoMenuStrip.Text = "menuStrip1";
             // 
             // settingsToolStripMenuItem
             // 
@@ -234,6 +227,13 @@ namespace WhatsappAuto
             this.settingsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
             this.settingsToolStripMenuItem.Text = "Settings";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
+            // 
+            // dataFolderToolStripMenuItem
+            // 
+            this.dataFolderToolStripMenuItem.Name = "dataFolderToolStripMenuItem";
+            this.dataFolderToolStripMenuItem.Size = new System.Drawing.Size(79, 20);
+            this.dataFolderToolStripMenuItem.Text = "Data Folder";
+            this.dataFolderToolStripMenuItem.Click += new System.EventHandler(this.dataFolderToolStripMenuItem_Click);
             // 
             // logoutToolStripMenuItem
             // 
@@ -253,20 +253,13 @@ namespace WhatsappAuto
             this.killEdgeCheckBox.UseVisualStyleBackColor = true;
             this.killEdgeCheckBox.CheckedChanged += new System.EventHandler(this.killEdgeCheckBox_CheckedChanged);
             // 
-            // dataFolderToolStripMenuItem
-            // 
-            this.dataFolderToolStripMenuItem.Name = "dataFolderToolStripMenuItem";
-            this.dataFolderToolStripMenuItem.Size = new System.Drawing.Size(79, 20);
-            this.dataFolderToolStripMenuItem.Text = "Data Folder";
-            this.dataFolderToolStripMenuItem.Click += new System.EventHandler(this.dataFolderToolStripMenuItem_Click);
-            // 
             // Dashboard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(703, 467);
             this.Controls.Add(this.killEdgeCheckBox);
-            this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.whatsappAutoMenuStrip);
             this.Controls.Add(this.messageViewerButton);
             this.Controls.Add(this.specificDeletion);
             this.Controls.Add(this.specificWordsLabel);
@@ -288,8 +281,8 @@ namespace WhatsappAuto
             this.Text = "Whatsapp Auto";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Dashboard_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
+            this.whatsappAutoMenuStrip.ResumeLayout(false);
+            this.whatsappAutoMenuStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -312,8 +305,7 @@ namespace WhatsappAuto
         private System.Windows.Forms.TextBox specificWordsBox;
         private System.Windows.Forms.Button specificDeletion;
         private System.Windows.Forms.Button messageViewerButton;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
-        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.MenuStrip whatsappAutoMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem logoutToolStripMenuItem;
         private System.Windows.Forms.CheckBox killEdgeCheckBox;
