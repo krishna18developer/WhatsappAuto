@@ -152,9 +152,9 @@ namespace WhatsappAuto
 
         private void thisMessageDeletedButton_Click(object sender, EventArgs e)
         {
-            if(!backgroundWorker1.IsBusy)
+            if(!whatsappOpenBackgroundWorker.IsBusy)
             {
-                backgroundWorker1.RunWorkerAsync();
+                whatsappOpenBackgroundWorker.RunWorkerAsync();
             }
             else
             {
@@ -163,11 +163,11 @@ namespace WhatsappAuto
             // deletionLogic();
         }
 
-        private void backgroundWorker1_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+        private void whatsappOpenBackgroundWorker_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
-            deletionLogic(killEdge: killEdgeCheckBox.Checked);
+            openWhatsappLogic(killEdge: killEdgeCheckBox.Checked);
         }
-        public void deletionLogic(bool killEdge)
+        public void openWhatsappLogic(bool killEdge)
         {
             if (killEdge)
             {
@@ -226,95 +226,7 @@ namespace WhatsappAuto
 
 
         }
-        private void serializer(EdgeDriver edgeDriver)
-        {
-            string folderPath = AppDomain.CurrentDomain.BaseDirectory + "Data";
-
-            if (!Directory.Exists(folderPath))
-            {
-                // Create the directory
-                Directory.CreateDirectory(folderPath);
-            }
-            string filePath = folderPath + @"\edgedriverHandle.bin";
-            //  SerializeObject<EdgeDriver>(filePath, publicDriver);
-            if(!File.Exists(filePath))
-            {
-                File.Create(filePath).Close();
-            }
-            SerializedEdgeDriver serializedDriver = new SerializedEdgeDriver();
-            serializedDriver.Url = edgeDriver.Url;
-            serializedDriver.Title = edgeDriver.Title;
-            serializedDriver.WindowHandle = edgeDriver.CurrentWindowHandle;
-
-            // Serialize the serializedDriver object to a byte array
-            BinaryFormatter bf = new BinaryFormatter();
-            using (MemoryStream ms = new MemoryStream())
-            {
-                bf.Serialize(ms, serializedDriver);
-                byte[] data = ms.ToArray();
-                File.WriteAllBytes(filePath, data);
-            }
-        }
-        private bool deserializer()
-        {
-            string folderPath = AppDomain.CurrentDomain.BaseDirectory + "Data";
-            bool result = false;
-           
-            if (!Directory.Exists(folderPath))
-            {
-                // Create the directory
-                Directory.CreateDirectory(folderPath);
-            }
-            string filePath = folderPath + @"\edgedriverHandle.bin";
-            if (File.Exists(filePath))
-            {
-                //publicDriver = DeSerializeObject<EdgeDriver>(filePath);
-
-                SerializedEdgeDriver deserializedDriver;
-                BinaryFormatter bf = new BinaryFormatter();
-                byte[] data = File.ReadAllBytes(filePath);
-
-                using (MemoryStream ms = new MemoryStream(data))
-                {
-                    deserializedDriver = (SerializedEdgeDriver)bf.Deserialize(ms);
-                    
-                    try
-                    {
-                        publicDriver.Url = deserializedDriver.Url;
-                        //publicDriver.Title = deserializedDriver.Title;
-                        publicDriver.SwitchTo().Window(deserializedDriver.WindowHandle);
-
-                        MessageBox.Show("Des");
-                    }
-                    catch(Exception ew)
-                    {
-                        EdgeOptions option = new EdgeOptions();
-                        option.AddArgument("--headless");
-                        publicDriver = new EdgeDriver(option);
-
-                        Console.WriteLine(ew.ToString());
-
-                    }
-
-                }
-
-                // Recreate the EdgeDriver instance using the extracted properties
-
-
-                result = true;
-            }
-            else
-            {
-                MessageBox.Show("No Previous Edge Handle Data Found Please open Whatsapp First");
-                result = false;
-            }
-            if(result == false)
-            {
-                MessageBox.Show("No Previous Edge Handle Data Found Please open Whatsapp First !");
-            }
-            return result;
-        }
-        public void reloadDeletion()
+        public void deletionLogic()
         {
             if(true)
             {
@@ -410,9 +322,9 @@ namespace WhatsappAuto
 
         private void runAgainButton_Click(object sender, EventArgs e)
         {
-            if(!backgroundWorker2.IsBusy)
+            if(!deletionLogicBackgroundWorker.IsBusy)
             {
-                backgroundWorker2.RunWorkerAsync();
+                deletionLogicBackgroundWorker.RunWorkerAsync();
             }   
             else
             {
@@ -421,9 +333,9 @@ namespace WhatsappAuto
             //reloadDeletion();
         }
 
-        private void backgroundWorker2_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+        private void deletionLogicBackgroundWorker_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
-            reloadDeletion();
+            deletionLogic();
         }
 
         private void specificDeletion_Click(object sender, EventArgs e)
@@ -470,10 +382,6 @@ namespace WhatsappAuto
             this.Hide();
         }
 
-        private void backgroundWorker2_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
-        {
-           // UpdateLabels();
-        }
 
         private void specificWordsLabel_DoubleClick(object sender, EventArgs e)
         {

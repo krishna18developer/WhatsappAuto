@@ -41,8 +41,8 @@ namespace WhatsappAuto
             this.runAgainButton = new System.Windows.Forms.Button();
             this.headlessCheckBox = new System.Windows.Forms.CheckBox();
             this.noOfDeletedMessagesLabel = new System.Windows.Forms.Label();
-            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.backgroundWorker2 = new System.ComponentModel.BackgroundWorker();
+            this.whatsappOpenBackgroundWorker = new System.ComponentModel.BackgroundWorker();
+            this.deletionLogicBackgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.overallDeletedMessagesLabel = new System.Windows.Forms.Label();
             this.specificWordsLabel = new System.Windows.Forms.Label();
             this.specificWordsBox = new System.Windows.Forms.TextBox();
@@ -151,12 +151,11 @@ namespace WhatsappAuto
             // 
             // backgroundWorker1
             // 
-            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
+            this.whatsappOpenBackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.whatsappOpenBackgroundWorker_DoWork);
             // 
             // backgroundWorker2
             // 
-            this.backgroundWorker2.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker2_DoWork);
-            this.backgroundWorker2.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker2_RunWorkerCompleted);
+            this.deletionLogicBackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.deletionLogicBackgroundWorker_DoWork);
             // 
             // overallDeletedMessagesLabel
             // 
@@ -306,8 +305,8 @@ namespace WhatsappAuto
         private System.Windows.Forms.Button runAgainButton;
         private System.Windows.Forms.CheckBox headlessCheckBox;
         private System.Windows.Forms.Label noOfDeletedMessagesLabel;
-        private System.ComponentModel.BackgroundWorker backgroundWorker1;
-        private System.ComponentModel.BackgroundWorker backgroundWorker2;
+        private System.ComponentModel.BackgroundWorker whatsappOpenBackgroundWorker;
+        private System.ComponentModel.BackgroundWorker deletionLogicBackgroundWorker;
         private System.Windows.Forms.Label overallDeletedMessagesLabel;
         private System.Windows.Forms.Label specificWordsLabel;
         private System.Windows.Forms.TextBox specificWordsBox;
