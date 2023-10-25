@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
@@ -30,13 +31,40 @@ namespace WhatsappAuto
         string testLabelText = "Test label";
         EdgeDriver publicDriver;
         TestMessageViewer TMV = new TestMessageViewer();
-        List<string> searchStrings = new List<string> { "You deleted this message", "This message was deleted", "Wait", "wait", "Boi", "boi", "Aww", "aww", "Bey", "bey", "Opened" };
+        List<string> searchStrings = searchStringLoader();
         List<string> basicSearchStrings = new List<string> { "You deleted this message", "This message was deleted" };
         public Dashboard()
         {
             InitializeComponent();
         }
+        private static List<string> searchStringLoader()
+        {
+            string folderPath = AppDomain.CurrentDomain.BaseDirectory + "Data";
+            List<string> loadedStrings = new List<string>();
+            if (!Directory.Exists(folderPath))
+            {
+                Directory.CreateDirectory(folderPath);
+                Console.WriteLine("Data Folder created successfully.");
+            }
+            string filePath = folderPath + @"\" + "defaultstrings.bin";
+            if (File.Exists(filePath))
+            {
+                string text = File.ReadAllText(filePath);
+                loadedStrings = text.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                Console.WriteLine("Loaded File Successfully");
+            }
+            else
+            {
+                File.WriteAllText(filePath, " ");
+            }
 
+            foreach (string s in loadedStrings)
+            {
+                Console.WriteLine("searchStringLoader().loadedStrings-> " + s);
+            }
+
+            return loadedStrings;
+        }
         private void Form1_Load(object sender, EventArgs e)
         {
             if (isDebug)
