@@ -12,6 +12,7 @@ using System.Runtime.InteropServices;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using Timer = System.Windows.Forms.Timer;
+using static System.Net.Mime.MediaTypeNames;
 
 
 namespace WhatsappAuto
@@ -36,14 +37,44 @@ namespace WhatsappAuto
         EdgeDriver publicDriver;
         TestMessageViewer TMV = new TestMessageViewer();
         DataEncryptor dataEncryptor = new DataEncryptor();
-        List<string> searchStrings = new List<string> { "You deleted this message", "This message was deleted", "Wait", "wait", "Boi", "boi", "Aww", "aww", "Bey", "bey", "Opened" };
+        List<string> searchStrings = searchStringLoader();
         public Dashboard()
         {
             InitializeComponent();
 
-            UIUpdationTimer.Interval = 1000; // Replace with the interval (in milliseconds) you want to use
+            UIUpdationTimer.Interval = 1000;
             UIUpdationTimer.Tick += UIUpdationTimer_Tick;
             UIUpdationTimer.Start();
+        }
+
+        //searchStringLoader()->Loads the list of default searches from disk file
+        private static List<string> searchStringLoader()
+        {
+            string folderPath = AppDomain.CurrentDomain.BaseDirectory + "Data";
+            List<string> loadedStrings = new List<string>();
+            if (!Directory.Exists(folderPath))
+            {
+                Directory.CreateDirectory(folderPath);
+                Console.WriteLine("Data Folder created successfully.");
+            }
+            string filePath = folderPath + @"\" + "defaultstrings.bin";
+            if (File.Exists(filePath))
+            {
+                string text = File.ReadAllText(filePath);
+                loadedStrings = text.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                Console.WriteLine("Loaded File Successfully");
+            }
+            else
+            {
+                File.WriteAllText(filePath, " ");
+            }
+
+            foreach(string s in loadedStrings)
+            {
+                Console.WriteLine("searchStringLoader().loadedStrings-> " + s);
+            }
+
+            return loadedStrings;
         }
 
         private void UIUpdationTimer_Tick(object sender, EventArgs e)
@@ -61,10 +92,6 @@ namespace WhatsappAuto
             {
                 this.Text += " - Release";
             }
-            //UpdateLabels();
-            //killEdgePrograms();
-            //Thread t = new Thread(new ThreadStart(UpdateLabels));
-            //t.Start();
             contactNameBox.Text = ContactName;
             specificWordsBox.Text = Settings.Default.SpecificWords;
             killEdgeCheckBox.Checked = Settings.Default.KillEdgeCheck;
